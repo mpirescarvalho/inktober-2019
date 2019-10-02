@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Emoji from '../../components/Emoji';
+import Cell from './Cell';
 
 import dorians from '../../img/dorians-pixel.png';
 
@@ -19,7 +19,7 @@ const Background = styled.div`
 	position: absolute;
 	background-image: url(${dorians});
 	background-size: cover;
-	filter: blur(1px);
+	filter: blur(5px);
 `;
 
 const Grid = styled.div`
@@ -42,26 +42,6 @@ const Row = styled.div`
 	justify-content: space-between;
 	flex-direction: row;
 	/* background-color: red; */
-`;
-
-const Cell = styled.div`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-  font-size: 7px;
-	background-color: none;
-	width: 100%;
-	height: 100%;
-	z-index: 2;
-	background-color: ${props => props.visible ? 'none' : '#fff'}
-
-	div {
-		z-index: -1;
-		position: absolute;
-		filter: blur(3px);
-		transform: scale(1.5);
-	}
-
 `;
 
 const raw =
@@ -116,39 +96,19 @@ const InkDay1 = () => {
 	const [matrix, setMatrix] = useState([]);
 
 	useEffect(() => {
-		// if (matrix.length > 0){
-		// 	const newMatrix = matrix; 
-		// 	newMatrix[0][0].visible = true;
-		// 	console.log(newMatrix);
-		// 	setMatrix(newMatrix);
-		// }
-		// const restantes = matrix.filter(row => row.filter(cel => !cel.visible));
-		// if (restantes.length > 0) {
-		// 	setTimeout(() => {
-		// 		const newMatrix = matrix;
-		// 		const x = restantes[0][0].x;
-		// 		const y = restantes[0][0].y; 
-		// 		newMatrix[y][x].visible = true;
-		// 		console.log(newMatrix);
-		// 		setMatrix(newMatrix);
-		// 	}, 2);
-		// }
-	}, [matrix]);
-
-	useEffect(() => {
 		console.log('loading matrix');
-		const loadedMatrix = raw.split('-').map((row, y) => row.split(' ').map((cel, x) => ({ emoji: cel, visible: false, x, y })));
+		const loadedMatrix = raw.split('-').map((row, y) => row.split(' ').map((cel, x) => cel));
 		setMatrix(loadedMatrix);
 	}, []);
 
 	return (
 		<Container>
 			<Grid>
+				{console.log('rendering', matrix)}
 				{matrix.length > 0 && <Background />}
 				{matrix.map((row, index) => {
 					return <Row key={index}>{row.map((cel, index) => {
-						const emoji = cel.visible ? cel.emoji : '';
-						return <Cell visible={cel.visible} key={index} ><div>{emoji}</div><Emoji emoji={emoji} /></Cell>
+						return <Cell key={index} content={cel}></Cell>
 					})}</Row>
 				})}
 			</Grid>

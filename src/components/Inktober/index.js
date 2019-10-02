@@ -35,7 +35,7 @@ const Inktober = () => {
 					<InkDay1 />
 				</InkContainer>
 			</InkBorder>
-			<InkDescription><strong>Day 1:</strong> that cost me 400g <Emoji emoji="💰" /> </InkDescription>
+			<InkDescription><strong>Day 1: </strong>Dorian's ring. <strike>that cost me 400g <Emoji emoji="💰" /></strike> </InkDescription>
 		</>
 	);
 }
