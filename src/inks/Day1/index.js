@@ -97,7 +97,7 @@ const InkDay1 = () => {
 
 	useEffect(() => {
 		console.log('loading matrix');
-		const loadedMatrix = raw.split('-').map((row, y) => row.split(' ').map((cel, x) => cel));
+		const loadedMatrix = raw.split('-').map((row, y) => row.split(' ').map((cel, x) => ({ emoji: cel, x, y })));
 		setMatrix(loadedMatrix);
 	}, []);
 
@@ -108,7 +108,7 @@ const InkDay1 = () => {
 				{matrix.length > 0 && <Background />}
 				{matrix.map((row, index) => {
 					return <Row key={index}>{row.map((cel, index) => {
-						return <Cell key={index} content={cel}></Cell>
+						return <Cell key={index} {...cel} content={cel.emoji}></Cell>
 					})}</Row>
 				})}
 			</Grid>
@@ -117,4 +117,3 @@ const InkDay1 = () => {
 }
 
 export default InkDay1;
-

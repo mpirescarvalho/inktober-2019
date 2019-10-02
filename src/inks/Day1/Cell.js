@@ -14,22 +14,32 @@ const StyledCell = styled.div`
 	z-index: 2;
 	transform: scale(1.2);
 	background-color: ${props => props.visible ? 'none' : '#fff'};
+	transition: all .2s;
 `;
 
-const Cell = ({ content }) => {
+const EmojiContainer = styled.div`
+	opacity: ${props => props.visible ? '1' : '0'};
+`;
+
+const Cell = ({ content, x, y }) => {
 
 	const [visible, setVisible] = useState(false);
+
+	const rowMiddle = 80 / 2;
+	const colMiddle = 48 / 2;
 
 	useEffect(() => {
 		setInterval(() => {
 			setVisible(true);
-		}, Math.random() * (20 - 1) + 1);
-	});
+		}, (Math.abs((x - rowMiddle)) + Math.abs((y - colMiddle))) * 20 + (Math.random() * 100 + 1));
+	}, [x, y, rowMiddle, colMiddle]);
 
 	return (
 		<StyledCell visible={visible}>
 			{console.log('rendering cell')}
-			{visible && <Emoji emoji={content} />}
+			<EmojiContainer visible={visible}>
+				<Emoji emoji={content} />
+			</EmojiContainer>
 		</StyledCell>
 	);
 }
