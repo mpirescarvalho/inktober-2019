@@ -111,16 +111,40 @@ const raw =
 	'➖ 💲 💲 💲 🎶 ☁ ☁ ☁ 🎶 💲 💲 💲 ➖ ➖ ➖ ➖ 💤 💤 💲 💲 🎶 ☁ ☁ 💤 💤 💤 🎶 💤 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🔵 🌀 🌀 🌀 🌀 🌀 🔵 🌀 🌀 💤 💤 💤 💤 🔹 🔹 💤 🌀 🌀 🌀 💤 💤 💤 💤 💲 💤 💲 💲 🎶 🎶 🎶 🎶 🎶 🎶 🎶 💲 💲 🎶 🎶 🎶-' +
 	'➗ ➗ ➗ 🔃 ➖ 💲 💲 🎶 🎶 ☁ ☁ 🎶 💲 💲 💲 💲 💲 💲 💲 🎶 ☁ 🎶 🎶 🔹 🔹 💤 💲 💤 🌀 🌀 🌀 🔵 🌀 🌀 🌀 💤 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🌀 🔵 🌀 🌀 💤 💤 💤 🔹 🔹 🌀 🌀 🌀 🌀 🔹 💤 💤 🎶 ☁ ☁ 🎶 ☁ ☁ ☁ ☁ ☁ 🎶 🎶 🎶 🎶 🎶 💲 💲 💲 💲';
 
-const matrix = raw.split('-').map(row => row.split(' ').map(cel => ({ emoji: cel, visible: false })));
-
 const InkDay1 = () => {
 
+	const [matrix, setMatrix] = useState([]);
 
+	useEffect(() => {
+		if (matrix.length > 0){
+			const newMatrix = matrix; 
+			newMatrix[0][0].visible = true;
+			console.log(newMatrix);
+			setMatrix(newMatrix);
+		}
+		// const restantes = matrix.filter(row => row.filter(cel => !cel.visible));
+		// if (restantes.length > 0) {
+		// 	setTimeout(() => {
+		// 		const newMatrix = matrix;
+		// 		const x = restantes[0][0].x;
+		// 		const y = restantes[0][0].y; 
+		// 		newMatrix[y][x].visible = true;
+		// 		console.log(newMatrix);
+		// 		setMatrix(newMatrix);
+		// 	}, 2);
+		// }
+	}, [matrix]);
+
+	useEffect(() => {
+		console.log('loading matrix');
+		const loadedMatrix = raw.split('-').map((row, y) => row.split(' ').map((cel, x) => ({ emoji: cel, visible: false, x, y })));
+		setMatrix(loadedMatrix);
+	}, []);
 
 	return (
 		<Container>
 			<Grid>
-				<Background />
+				{matrix.length > 0 && <Background />}
 				{matrix.map((row, index) => {
 					return <Row key={index}>{row.map((cel, index) => {
 						const emoji = cel.visible ? cel.emoji : '';
