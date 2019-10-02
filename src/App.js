@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Title from './components/Title';
+import Divider from './components/Divider';
+import Footer from './components/Footer';
+import Inktober from './components/Inktober';
+
+const Container = styled.div`
+  height: 500px;
+  width: 800px;
+  margin: 0 auto;
+`;
+
+const App = () => (
+  <Container>
+    <Title/>
+    <Inktober />
+    {/* <Pagination /> */}
+    <Divider />
+    <Footer />
+  </Container>
+);
 
 export default App;
