@@ -116,12 +116,12 @@ const InkDay1 = () => {
 	const [matrix, setMatrix] = useState([]);
 
 	useEffect(() => {
-		if (matrix.length > 0){
-			const newMatrix = matrix; 
-			newMatrix[0][0].visible = true;
-			console.log(newMatrix);
-			setMatrix(newMatrix);
-		}
+		// if (matrix.length > 0){
+		// 	const newMatrix = matrix; 
+		// 	newMatrix[0][0].visible = true;
+		// 	console.log(newMatrix);
+		// 	setMatrix(newMatrix);
+		// }
 		// const restantes = matrix.filter(row => row.filter(cel => !cel.visible));
 		// if (restantes.length > 0) {
 		// 	setTimeout(() => {
