@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c87f0a4c332310a3268aaa09e1b4b2e3",
+    "revision": "e53fdfa6269d251abb2f13eeafb74be8",
     "url": "/inktober-2019/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/inktober-2019/static/js/2.aa899931.chunk.js"
   },
   {
-    "revision": "6c712060b609b8e37331",
-    "url": "/inktober-2019/static/js/main.3e28a1e3.chunk.js"
+    "revision": "58025539760cb16cca48",
+    "url": "/inktober-2019/static/js/main.0edd12b5.chunk.js"
   },
   {
     "revision": "fbc813efe12dfc7ff069",
