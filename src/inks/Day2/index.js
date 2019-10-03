@@ -35,17 +35,29 @@ const StyledWall = styled.div`
 	font-size: 18px;
 	width: 100%;
 	height: 100%;
-	background-color: ${props => props.theme.Jet};
+	border: 1px solid red;
+	background-color: ${props => props.hover ? 'red' : props.theme.Jet};
 	${props => props.clear && 'background-color: ' + props.theme.Isabelline};
 `;
 
-const Wall = (props) => (
-	<StyledWall onMouseOver={() => {
-		if (!props.clear) {
-			props.onLose();	
-		}
-	}} {...props}>
-		{props.content}
+const Wall = ({ hover, clear, onLose, content }) => (
+	<StyledWall 
+		clear={clear}
+		hover={hover}
+		onMouseMoveCapture={(e) => {
+			
+			if (!clear) {
+				onLose();	
+			}
+
+			// width: 34px;
+			// height: 40px;
+
+			console.log('x', e.pageX - e.currentTarget.parentElement.parentElement.offsetLeft - e.currentTarget.offsetLeft);
+			console.log('y', e.pageY - e.currentTarget.parentElement.parentElement.offsetTop - e.currentTarget.offsetTop);
+
+		}} >
+		{content}
 	</StyledWall>
 );
 
@@ -75,6 +87,10 @@ const ContainerLose = styled.div`
 	cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' transform='rotate(75)' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🍸</text></svg>") 16 0,auto;
 `;
 
+const ContainerWin = styled(ContainerLose)`
+	cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🤪</text></svg>") 16 0,auto;
+`;
+
 const CenterHightlight = styled.div`
 	position: absolute;
 	z-index: 2;
@@ -88,37 +104,52 @@ const StyledMouseEmoji = styled.div`
   position: ${props => props.x && props.y ? 'fixed' : 'block' };
 	left: ${props => props.x && props.y ? props.x : 472 }px;
 	top: ${props => props.x && props.y ? props.y : 540 }px; 
-	margin-left: -10px;
-	margin-top: -20px;
-	width: 20px;
+	margin-left: ${props => props.x && props.y ? -17 : 0 }px;
+	margin-top: ${props => props.x && props.y ? -20 : 0 }px;
+	width: 34px;
 	height: 40px;
-	background-color: black;
+	font-size: 32px;
+	border: 1px solid black;
 	z-index: 5;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	cursor: grab;
 `;
 
-const MouseEmoji = ({ onGrab }) => {
+class MouseEmoji extends React.Component {
 
-	const [mousePosition, setMousePosition] = useState({});
-
-	const handleMouseMove = (e) => {
-		setMousePosition({ x: e.pageX, y: e.pageY })
+	constructor ({ onGrab }) {
+		super();
+		this.onGrab = onGrab;
+		this.state = {};
 	}
 
-	const handleMouseEnter = (e) => {
-		setMousePosition({ x: e.pageX, y: e.pageY })
-		onGrab();
+	handleMouseMove = (e) => {
+		this.setState({ x: e.pageX, y: e.pageY })
 	}
 
-	console.log('rendering at', mousePosition.x, mousePosition.y);
+	handleMouseEnter = (e) => {
+		this.setState({ x: e.pageX, y: e.pageY })
+		this.onGrab();
+	}
 
-	return (
-		<StyledMouseEmoji 
-			onMouseEnter={handleMouseEnter}
-			onMouseMove={handleMouseMove}
-			{...mousePosition}>
-		</StyledMouseEmoji>
-	);
+	render() {
+		console.log('rendering at', this.state.x, this.state.y);
+		return (
+			<StyledMouseEmoji 
+				onMouseEnter={this.handleMouseEnter}
+				onMouseMove={this.handleMouseMove}
+				{...this.state}>
+				<div style={{marginTop: '-6px'}}>
+					<Emoji emoji='🍹' />
+				</div>
+				<div style={{zIndex: '-1', fontSize: '0.9em', marginLeft: '-40px', marginTop: '28px'}}>
+					<Emoji emoji='➖' />
+				</div>
+			</StyledMouseEmoji>
+		);
+	}
 }
 
 const InkDay2 = () => {
@@ -135,7 +166,7 @@ const InkDay2 = () => {
 
 	useEffect(() => {
 		console.log(status);
-		if (status.lose) {
+		if (status.lose || status.win) {
 			setTimeout(() => {
 				setStatus({})
 			}, 4000);
@@ -148,6 +179,12 @@ const InkDay2 = () => {
 		}
 	}
 
+	const handleWin = () => {
+		if (status.started && status.validate) {
+			setStatus({ win: true });
+		}
+	}
+
 	if (status.lose) {
 		return (
 			<ContainerLose>
@@ -155,6 +192,16 @@ const InkDay2 = () => {
 					<h1>How dare you <Emoji emoji='😰😠' /></h1>
 				</StyledContainer>
 			</ContainerLose>
+		);
+	}
+
+	if (status.win) {
+		return (
+			<ContainerWin>
+				<StyledContainer>
+					<h1>Thank you <Emoji emoji='😋' /></h1>
+				</StyledContainer>
+			</ContainerWin>
 		);
 	}
 
@@ -171,15 +218,14 @@ const InkDay2 = () => {
 		);
 	}
 
+
 	return (
 		<Center>
 
 			{!status.validate &&
 				<CenterHightlight>
-					<h1>Grab the wine to start!</h1>
+					<h1>Grab the drink to start!</h1>
 				</CenterHightlight>}
-
-				{/* <MouseEmoji onGrab={() => validateGame()}/> */}
 
 			<Grid {...status} >
 				<Row>
@@ -327,7 +373,7 @@ const InkDay2 = () => {
 					<Wall clear />
 				</Row>
 				<Row>
-					<Wall clear content={<Emoji emoji='😛' />} />
+					<Wall onMouseEnter={() => handleWin()} clear content={<Emoji emoji='😛' />} />
 					<Wall clear />
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
@@ -353,8 +399,12 @@ const InkDay2 = () => {
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
-					{/* <Wall ForwardRef='WallStart' clear content={<Emoji emoji={!status.validate ? '🍹' : '⬆️'} />} /> */}
-					<Wall clear content={<MouseEmoji onGrab={() => validateGame()}/>} />
+					<Wall clear content={
+						<>
+							<MouseEmoji onGrab={() => validateGame()}/>
+							{status.validate && <Emoji emoji='⬆️' />}
+						</>
+					} />
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
