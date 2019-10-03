@@ -29,7 +29,7 @@ const Cell = ({ content, x, y }) => {
 	const colMiddle = 48 / 2;
 
 	useEffect(() => {
-		setInterval(() => {
+		setTimeout(() => {
 			setVisible(true);
 		}, (((Math.abs((x - rowMiddle)) + Math.abs((y - colMiddle))) * 5 + (Math.random() * 50 + 1)) * -1) + 500);
 	}, [x, y, rowMiddle, colMiddle]);
