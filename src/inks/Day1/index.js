@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Cell from './Cell';
+import Emoji from '../../components/Emoji';
 
 import dorians from '../../img/dorians-pixel.png';
 
@@ -114,6 +115,11 @@ const InkDay1 = () => {
 			</Grid>
 		</Container>
 	);
+
 }
 
+const InkDay1Desc = () => <span>That cost me 400g <Emoji emoji="💰" /></span>
+
 export default InkDay1;
+
+export { InkDay1Desc };

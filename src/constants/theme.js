@@ -4,6 +4,7 @@ export const DEFAULT_THEME = {
 	Jet: '#343633',
 	Isabelline: '#eeeeee',
 	Sunglow: '#ffd23f',
+	SunglowDarker: '#e6b000',
 	titleFont: 'Oswald',
 	textFont: 'Roboto'
 };

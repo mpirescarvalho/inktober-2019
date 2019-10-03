@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import Emoji from '../Emoji';
-import InkDay1 from '../../inks/Day1';
+import InkDay1, { InkDay1Desc } from '../../inks/Day1';
+import InkDay2, { InkDay2Desc } from '../../inks/Day2';
 
 const InkBorder = styled.div`
 	background-color: ${props => props.theme.Jet};
@@ -27,15 +27,20 @@ const InkDescription = styled.div`
 
 const Inktober = () => {
 
+	const [day] = useState(2);
 
 	return (
 		<>
 			<InkBorder>
 				<InkContainer>
-					<InkDay1 />
+					{day === 1 && <InkDay1 />}
+					{day === 2 && <InkDay2 />}
 				</InkContainer>
 			</InkBorder>
-			<InkDescription><strong>Day 1: </strong>Dorian's ring. <strike>that cost me 400g <Emoji emoji="💰" /></strike> </InkDescription>
+			<InkDescription><strong>Day 2: </strong>
+				{day === 1 && <InkDay1Desc />}
+				{day === 2 && <InkDay2Desc />}
+			</InkDescription>
 		</>
 	);
 }

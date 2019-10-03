@@ -31,7 +31,7 @@ const Cell = ({ content, x, y }) => {
 	useEffect(() => {
 		setInterval(() => {
 			setVisible(true);
-		}, (Math.abs((x - rowMiddle)) + Math.abs((y - colMiddle))) * 20 + (Math.random() * 100 + 1));
+		}, (((Math.abs((x - rowMiddle)) + Math.abs((y - colMiddle))) * 5 + (Math.random() * 50 + 1)) * -1) + 500);
 	}, [x, y, rowMiddle, colMiddle]);
 
 	return (
