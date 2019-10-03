@@ -15,7 +15,7 @@ const Grid = styled.div`
 	justify-content: space-between;
 	flex-direction: column;
 	background-color: ${props => props.theme.Jet};
-	cursor: ${props => props.started && !props.validate ? 'grab' : 'none'};
+	cursor: grab;
 `;
 
 const Row = styled.div`
@@ -85,33 +85,36 @@ const CenterHightlight = styled.div`
 `;
 
 const StyledMouseEmoji = styled.div`
-	position: absolute;
-	left: ${props => props.grab ? props.x : 468 }px;
-	top: ${props => props.grab ? props.y : 572 }px;
-	margin-left: -5px;
-	margin-top: -5px;
-	width: 10px;
-	height: 10px;
+  position: ${props => props.x && props.y ? 'fixed' : 'block' };
+	left: ${props => props.x && props.y ? props.x : 472 }px;
+	top: ${props => props.x && props.y ? props.y : 540 }px; 
+	margin-left: -10px;
+	margin-top: -20px;
+	width: 20px;
+	height: 40px;
 	background-color: black;
 	z-index: 5;
+	cursor: grab;
 `;
 
 const MouseEmoji = ({ onGrab }) => {
 
 	const [mousePosition, setMousePosition] = useState({});
-	const [grab, setGrab] = useState(false);
 
 	const handleMouseMove = (e) => {
 		setMousePosition({ x: e.pageX, y: e.pageY })
 	}
 
-	useEffect(() => {
-		if (grab) onGrab();
-	}, [mousePosition, grab, onGrab])
+	const handleMouseEnter = (e) => {
+		setMousePosition({ x: e.pageX, y: e.pageY })
+		onGrab();
+	}
+
+	console.log('rendering at', mousePosition.x, mousePosition.y);
 
 	return (
 		<StyledMouseEmoji 
-			grab={grab}
+			onMouseEnter={handleMouseEnter}
 			onMouseMove={handleMouseMove}
 			{...mousePosition}>
 		</StyledMouseEmoji>
@@ -176,7 +179,7 @@ const InkDay2 = () => {
 					<h1>Grab the wine to start!</h1>
 				</CenterHightlight>}
 
-			<MouseEmoji onGrab={() => validateGame()} />
+				{/* <MouseEmoji onGrab={() => validateGame()}/> */}
 
 			<Grid {...status} >
 				<Row>
@@ -350,7 +353,8 @@ const InkDay2 = () => {
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
-					<Wall clear content={<Emoji emoji={!status.validate ? '🍹' : '⬆️'} />} />
+					{/* <Wall ForwardRef='WallStart' clear content={<Emoji emoji={!status.validate ? '🍹' : '⬆️'} />} /> */}
+					<Wall clear content={<MouseEmoji onGrab={() => validateGame()}/>} />
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
 					<Wall onLose={() => handleLose()}/>
