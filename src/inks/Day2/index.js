@@ -271,7 +271,7 @@ const InkDay2 = () => {
 	}
 
 	return (
-		<Center>
+		<Center onContextMenu={(e) => e.preventDefault()}>
 			{!status.validate && (
 				<CenterHightlight>
 					<h1>Grab the drink to start!</h1>
