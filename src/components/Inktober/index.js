@@ -47,7 +47,7 @@ const Button = styled.button`
 const Inktober = () => {
 	
 	const maxDay = 3;
-	const [day, setDay] = useState(1);
+	const [day, setDay] = useState(3);
 	
 	const handleNext = () => {
 		if (day < maxDay) setDay((day) => day + 1);
