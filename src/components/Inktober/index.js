@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import InkDay1, { InkDay1Desc } from '../../inks/Day1';
 import InkDay2, { InkDay2Desc } from '../../inks/Day2';
+import InkDay3, { InkDay3Desc } from '../../inks/Day3';
 
 const InkBorder = styled.div`
 	background-color: ${props => props.theme.Jet};
@@ -25,21 +26,20 @@ const InkDescription = styled.div`
 	padding: 20px;
 `;
 
-const Inktober = () => {
-
-	const [day] = useState(2);
-
+const Inktober = ({day}) => {
 	return (
 		<>
 			<InkBorder>
 				<InkContainer>
 					{day === 1 && <InkDay1 />}
 					{day === 2 && <InkDay2 />}
+					{day === 3 && <InkDay3 />}
 				</InkContainer>
 			</InkBorder>
-			<InkDescription><strong>Day 2: </strong>
+			<InkDescription><strong>Day {day}: </strong>
 				{day === 1 && <InkDay1Desc />}
 				{day === 2 && <InkDay2Desc />}
+				{day === 3 && <InkDay3Desc />}
 			</InkDescription>
 		</>
 	);
