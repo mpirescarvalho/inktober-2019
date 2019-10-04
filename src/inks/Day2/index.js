@@ -10,12 +10,14 @@ const Grid = styled.div`
 	position: relative;
 	top: 0;
 	left: 0;
-  display: flex;
+	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	flex-direction: column;
 	background-color: ${props => props.theme.Jet};
-	cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' transform='translate(10)' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🍹</text></svg>") 25 25,auto;
+		cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='40'><text style='font-size:26px;' x='-3' y='35'>🧫</text><text style='font-size:29px;' x='-4' y='27'>🍹</text></svg>")
+			15 20,
+		auto;
 	${props => !props.validate && 'cursor: grab'};
 `;
 
@@ -39,33 +41,80 @@ const StyledWall = styled.div`
 `;
 
 const Wall = ({ hover, clear, onLose, content, ...other }) => (
-		<StyledWall {...other}
-			clear={clear}
-			hover={hover}
-		// onMouseMoveCapture={(e) => {
+	<StyledWall
+		{...other}
+		clear={clear}
+		hover={hover}
+		onMouseMoveCapture={e => {
+			
+			//TODO: Melhorar
+			//Sem collision em span
+			if (e.target.nodeName === 'SPAN') return;
 
-		// 	if (!clear) {
-		// 		onLose();	
-		// 	}
+			const { map, y, x } = other;
+			const wall = (y, x) => !map[y] || !map[y][x] || map[y][x].cell === 1;
+			const wallTop = wall(y - 1, x);
+			const wallLeft = wall(y, x - 1);
+			const wallTopLeft = wall(y - 1, x - 1);
+			const wallBottom = wall(y + 1, x);
+			const wallLeftBottom = wall(y + 1, x - 1);
+			const wallRight = wall(y, x + 1);
+			const wallBottomRight = wall(y + 1, x + 1);
+			const wallRightTop = wall(y - 1, x + 1);
+			
+			var collision = false;
 
-		// 	// width: 34px;
-		// 	// height: 40px;
+			const xStart = -1;
+			const yStart = -1;
+			const xEnd = e.target.offsetWidth + 1;
+			const yEnd = e.target.offsetHeight + 1;
 
-		// 	console.log(e.nativeEvent);
-		// 	console.log(e.nativeEvent.offsetX);
-		// 	console.log(e.nativeEvent.offsetY);
-		// 	// console.log(e.pageX);
-		// 	// console.log('target', e.target.offsetLeft);
-		// 	// console.log('currentTarget', e.currentTarget.offsetLeft);
-		// 	// console.log('relatedTarget', e.relatedTarget);
-		// 	// console.log(e.relatedTarget.parentElement.parentElement.offsetLeft);
-		// 	console.log('x', e.pageX - e.currentTarget.parentElement.parentElement.parentElement.offsetLeft - e.currentTarget.parentElement.offsetLeft);
-		// 	console.log('y', e.pageY - e.currentTarget.parentElement.parentElement.offsetTop - e.currentTarget.offsetTop);
+			const overlayTop = e.nativeEvent.offsetY - 20 <= yStart;
+			const overlayLeft = e.nativeEvent.offsetX - 15 <= xStart;
+			const overlayBottom = e.nativeEvent.offsetY + 20 >= yEnd;
+			const overlayRight = e.nativeEvent.offsetX + 15 >= xEnd;
+			const overlayRightBottom = 
+				(e.nativeEvent.offsetX + 15 >= xEnd + 2) &&
+				(e.nativeEvent.offsetY + 20 >= yEnd + 2);
+			const overlayLeftBottom = 
+				(e.nativeEvent.offsetX - 15 <= xStart - 2) &&
+				(e.nativeEvent.offsetY + 20 >= yEnd + 2);
 
-		// }} 
-		>
-			{content}
-		</StyledWall>
+
+			//15, 20 => bounds
+
+			if (collision) return console.warn('colision bottom');
+			if (collision) return console.warn('colision left');
+			if (collision) return console.warn('colision top');
+			if (collision) return console.warn('colision right');
+
+			collision = !clear;
+			
+			collision = collision || (wallTop && overlayTop);
+			collision = collision || (wallTopLeft && overlayTop && overlayLeft);
+			collision = collision || (wallRightTop && overlayTop && overlayRight);
+			collision = collision || (wallLeft && overlayLeft);
+			collision = collision || (wallLeftBottom && overlayLeftBottom);
+			collision = collision || (wallBottom && overlayBottom);
+			collision = collision || (wallBottomRight && overlayRightBottom);
+			collision = collision || (wallRight && overlayRight);
+			
+			if (collision) return onLose();
+
+			if (collision) return console.warn('colision');
+
+			console.log('top', `${wallTop ? 'not' : ''} clear - distancia: ${e.nativeEvent.offsetY - 20}`);
+			console.log('atual', `${wall(y, x) ? 'not' : ''} clear`);
+			console.log('bottom', `${wallBottom ? 'not' : ''} clear - distancia: ${e.nativeEvent.offsetY + 20 - yEnd}`);
+			console.log('left', `${wallLeft ? 'not' : ''} clear - distancia: ${e.nativeEvent.offsetX - 15}`);
+			console.log('right', `${wallRight ? 'not' : ''} clear - distancia: ${e.nativeEvent.offsetX + 15 - xEnd}`);
+			console.log('x', e.nativeEvent.offsetX);
+			console.log('y', e.nativeEvent.offsetY);
+			console.log('=====');
+		}}
+	>
+		{content}
+	</StyledWall>
 );
 
 const StyledContainer = styled.div`
@@ -80,22 +129,25 @@ const Button = styled.button`
 	font-weight: 900;
 	padding: 1.15rem 2rem;
 	text-decoration: none;
-	transition: all .5s;
+	transition: all 0.5s;
 
-	&:hover{
+	&:hover {
 		background-color: ${props => props.theme.SunglowDarker};
 	}
-
 `;
 
 const ContainerLose = styled.div`
 	width: 100%;
 	height: 100%;
-	cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' transform='rotate(75)' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🍸</text></svg>") 16 0,auto;
+	cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' transform='rotate(75)' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🍸</text></svg>")
+			16 0,
+		auto;
 `;
 
 const ContainerWin = styled(ContainerLose)`
-	cursor:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🤪</text></svg>") 16 0,auto;
+	cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='61' height='73' viewport='0 0 100 100' style='fill:black;font-size:37px;'><text y='50%'>🤪</text></svg>")
+			16 0,
+		auto;
 `;
 
 const CenterHightlight = styled.div`
@@ -108,46 +160,84 @@ const CenterHightlight = styled.div`
 	pointer-events: none;
 `;
 
-const InkDay2 = () => {
+const initialMap = [
+	[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+	[0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+	[0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0],
+	[1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0],
+	[0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0],
+	[1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+	[1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0],
+	[{ cell: 0, end: true, content: () => <Emoji emoji="😛" /> }, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	[
+		1,
+		0,
+		0,
+		1,
+		1,
+		1,
+		1,
+		1,
+		{ cell: 0, start: true, content: estado => <Emoji emoji={estado.validate ? '⬆️' : '🍹'} /> },
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+		1,
+	],
+];
 
-	const [status, setStatus] = useState({ started: false, lose: false, validate: false });
+const mapState = initialMap.map(row =>
+	row.map(cell => {
+		if (typeof cell === 'object') return cell;
+		return { cell: cell };
+	}),
+);
+
+const InkDay2 = () => {
+	const [status, setStatus] = useState({ started: false, lose: false, validate: false, map: mapState });
 
 	const startGame = () => {
-		setStatus({ started: true })
-	}
+		setStatus(status => ({ started: true, map: status.map }));
+	};
 
-	const validateGame = (e) => {
+	const validateGame = e => {
 		if (!status.validate && e.target.nodeName === 'SPAN') {
-			setStatus({ started: true, validate: true });
+			setStatus(status => ({ started: true, validate: true, map: status.map }));
 		}
-	}
+	};
 
 	useEffect(() => {
 		console.log(status);
 		if (status.lose || status.win) {
 			setTimeout(() => {
-				setStatus({})
+				setStatus(status => ({ map: status.map }));
 			}, 4000);
 		}
 	}, [status]);
 
 	const handleLose = () => {
 		if (status.started && status.validate) {
-			setStatus({ lose: true });
+			setStatus(status => ({ lose: true, map: status.map }));
 		}
-	}
+	};
 
-	const handleWin = (e) => {
+	const handleWin = e => {
 		if (status.started && status.validate && e.target.nodeName === 'SPAN') {
-			setStatus({ win: true });
+			setStatus(status => ({ win: true, map: status.map }));
 		}
-	}
+	};
 
 	if (status.lose) {
 		return (
 			<ContainerLose>
 				<StyledContainer>
-					<h1>How dare you <Emoji emoji='😰😠' /></h1>
+					<h1>
+						How dare you <Emoji emoji="😰😠" />
+					</h1>
 				</StyledContainer>
 			</ContainerLose>
 		);
@@ -157,7 +247,9 @@ const InkDay2 = () => {
 		return (
 			<ContainerWin>
 				<StyledContainer>
-					<h1>Thank you <Emoji emoji='😋' /></h1>
+					<h1>
+						Thank you <Emoji emoji="😋" />
+					</h1>
 				</StyledContainer>
 			</ContainerWin>
 		);
@@ -167,7 +259,9 @@ const InkDay2 = () => {
 		return (
 			<div>
 				<StyledContainer>
-					<h1>Be careful <Emoji emoji='😱🍹' /></h1>
+					<h1>
+						Be careful <Emoji emoji="😱🍹" />
+					</h1>
 				</StyledContainer>
 				<Center>
 					<Button onClick={() => startGame()}>START!</Button>
@@ -176,196 +270,43 @@ const InkDay2 = () => {
 		);
 	}
 
-
 	return (
 		<Center>
-
-			{!status.validate &&
+			{!status.validate && (
 				<CenterHightlight>
 					<h1>Grab the drink to start!</h1>
-				</CenterHightlight>}
+				</CenterHightlight>
+			)}
 
-			<Grid {...status} >
-				<Row>
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-				</Row>
-				<Row>
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall onMouseMove={(e) => handleWin(e)} clear content={<Emoji emoji='😛' />} />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-					<Wall clear />
-				</Row>
-				<Row>
-					<Wall onLose={() => handleLose()} />
-					<Wall clear />
-					<Wall clear />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onMouseMove={(e) => validateGame(e)} clear content={<Emoji emoji={status.validate ? '⬆️' : '🍹'} />} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-					<Wall onLose={() => handleLose()} />
-				</Row>
+			<Grid {...status}>
+				{status.map &&
+					status.map.map((row, y) => (
+						<Row key={y}>
+							{row.map((cell, x) => {
+								const wall = cell.cell === 1;
+								const content = cell.content ? cell.content(status) : undefined;
+								const onMouseMove = cell.start
+									? e => validateGame(e)
+									: cell.end
+									? e => handleWin(e)
+									: undefined;
+								return (
+									<Wall
+										x={x}
+										y={y}
+										map={status.map}
+										setStatus={status => setStatus(status)}
+										onMouseMove={onMouseMove}
+										onLose={handleLose}
+										{...cell}
+										content={content}
+										key={x}
+										clear={!wall}
+									/>
+								);
+							})}
+						</Row>
+					))}
 			</Grid>
 		</Center>
 	);
@@ -373,6 +314,10 @@ const InkDay2 = () => {
 
 export default InkDay2;
 
-const InkDay2Desc = () => <span>Mindless? Not with a drink <Emoji emoji="🤠" /></span>
+const InkDay2Desc = () => (
+	<span>
+		Mindless? Not with a drink <Emoji emoji="🤠" />
+	</span>
+);
 
 export { InkDay2Desc };
