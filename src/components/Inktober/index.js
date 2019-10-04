@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import InkDay1, { InkDay1Desc } from '../../inks/Day1';
 import InkDay2, { InkDay2Desc } from '../../inks/Day2';
 import InkDay3, { InkDay3Desc } from '../../inks/Day3';
+
+import Emoji from '../Emoji';
 
 const InkBorder = styled.div`
 	background-color: ${props => props.theme.Jet};
@@ -26,7 +28,26 @@ const InkDescription = styled.div`
 	padding: 20px;
 `;
 
-const Inktober = ({day}) => {
+const PaginationContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 100px;
+`;
+
+const Button = styled.button`
+	font-size: 20px;
+	background-color: #00000000;
+	padding: 2px 5px;
+	border: none;
+	cursor: pointer;
+`;
+
+const Inktober = () => {
+	
+	const [day, setDay] = useState(3);
+	
 	return (
 		<>
 			<InkBorder>
@@ -36,11 +57,15 @@ const Inktober = ({day}) => {
 					{day === 3 && <InkDay3 />}
 				</InkContainer>
 			</InkBorder>
-			<InkDescription><strong>Day {day}: </strong>
-				{day === 1 && <InkDay1Desc />}
-				{day === 2 && <InkDay2Desc />}
-				{day === 3 && <InkDay3Desc />}
-			</InkDescription>
+			<PaginationContainer>
+				<Button><Emoji emoji='👈'/></Button>
+				<InkDescription><strong>Day {day}: </strong>
+					{day === 1 && <InkDay1Desc />}
+					{day === 2 && <InkDay2Desc />}
+					{day === 3 && <InkDay3Desc />}
+				</InkDescription>
+				<Button><Emoji emoji='👉'/></Button>
+			</PaginationContainer>
 		</>
 	);
 }

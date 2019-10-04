@@ -15,8 +15,7 @@ const Container = styled.div`
 const App = () => (
   <Container>
     <Title/>
-    <Inktober day={3} />
-    {/* <Pagination /> */}
+    <Inktober />
     <Divider />
     <Footer />
   </Container>
