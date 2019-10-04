@@ -1,15 +1,15 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4d53d20efb04d1a09050f231d3368d94",
+    "revision": "95c12e1578fa6bc5c3ac98445af8a693",
     "url": "/inktober-2019/index.html"
   },
   {
-    "revision": "34eb6ff36af11d9bd92c",
-    "url": "/inktober-2019/static/js/2.ebce164b.chunk.js"
+    "revision": "9081d99457e136a3755a",
+    "url": "/inktober-2019/static/js/2.f1e08caa.chunk.js"
   },
   {
-    "revision": "1fe04ea30ff9ff0c8fe5",
-    "url": "/inktober-2019/static/js/main.59a8ff5c.chunk.js"
+    "revision": "0afba6cbcaadddeaf95c",
+    "url": "/inktober-2019/static/js/main.a37720dd.chunk.js"
   },
   {
     "revision": "fbc813efe12dfc7ff069",
@@ -18,5 +18,9 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "f78a52a0c13d7128fd2d8c586e1ebf62",
     "url": "/inktober-2019/static/media/dorians-pixel.f78a52a0.png"
+  },
+  {
+    "revision": "e22bead922849fe3bfc8fc17da577d1c",
+    "url": "/inktober-2019/static/media/mapa-lol.e22bead9.png"
   }
 ]);

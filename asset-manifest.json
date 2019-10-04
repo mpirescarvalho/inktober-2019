@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.js": "/inktober-2019/static/js/main.59a8ff5c.chunk.js",
-    "main.js.map": "/inktober-2019/static/js/main.59a8ff5c.chunk.js.map",
+    "main.js": "/inktober-2019/static/js/main.a37720dd.chunk.js",
+    "main.js.map": "/inktober-2019/static/js/main.a37720dd.chunk.js.map",
     "runtime-main.js": "/inktober-2019/static/js/runtime-main.0f5af469.js",
     "runtime-main.js.map": "/inktober-2019/static/js/runtime-main.0f5af469.js.map",
-    "static/js/2.ebce164b.chunk.js": "/inktober-2019/static/js/2.ebce164b.chunk.js",
-    "static/js/2.ebce164b.chunk.js.map": "/inktober-2019/static/js/2.ebce164b.chunk.js.map",
+    "static/js/2.f1e08caa.chunk.js": "/inktober-2019/static/js/2.f1e08caa.chunk.js",
+    "static/js/2.f1e08caa.chunk.js.map": "/inktober-2019/static/js/2.f1e08caa.chunk.js.map",
     "index.html": "/inktober-2019/index.html",
-    "precache-manifest.9ff0fcd8b329880fe4e00612269cfa31.js": "/inktober-2019/precache-manifest.9ff0fcd8b329880fe4e00612269cfa31.js",
+    "precache-manifest.9ba63e4965a09568ae553c10f8b4e2e8.js": "/inktober-2019/precache-manifest.9ba63e4965a09568ae553c10f8b4e2e8.js",
     "service-worker.js": "/inktober-2019/service-worker.js",
-    "static/media/dorians-pixel.png": "/inktober-2019/static/media/dorians-pixel.f78a52a0.png"
+    "static/media/dorians-pixel.png": "/inktober-2019/static/media/dorians-pixel.f78a52a0.png",
+    "static/media/mapa-lol.png": "/inktober-2019/static/media/mapa-lol.e22bead9.png"
   }
 }
