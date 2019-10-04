@@ -64,10 +64,10 @@ const Wall = ({ hover, clear, onLose, content, ...other }) => (
 			
 			var collision = false;
 
-			const xStart = -1;
-			const yStart = -1;
+			const xStart = 0;
+			const yStart = 0;
 			const xEnd = e.target.offsetWidth + 1;
-			const yEnd = e.target.offsetHeight + 1;
+			const yEnd = e.target.offsetHeight;
 
 			const overlayTop = e.nativeEvent.offsetY - 20 <= yStart;
 			const overlayLeft = e.nativeEvent.offsetX - 15 <= xStart;
@@ -79,7 +79,6 @@ const Wall = ({ hover, clear, onLose, content, ...other }) => (
 			const overlayLeftBottom = 
 				(e.nativeEvent.offsetX - 15 <= xStart - 2) &&
 				(e.nativeEvent.offsetY + 20 >= yEnd + 2);
-
 
 			//15, 20 => bounds
 
