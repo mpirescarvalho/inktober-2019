@@ -5,6 +5,8 @@ import Emoji from '../../components/Emoji';
 
 import imgMapa from '../../img/mapa-lol.png';
 
+import Minion from './Minion';
+
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -16,12 +18,13 @@ const InkDay3 = () => {
 
 	return (
 		<Container>
+			<Minion></Minion>
 		</Container>
 	);
 
 }
 
-const InkDay3Desc = () => <span>Free farm... <Emoji emoji="💰" /></span>
+const InkDay3Desc = () => <span>Free farm... <Emoji emoji="💰🙃" /></span>
 
 export default InkDay3;
 
