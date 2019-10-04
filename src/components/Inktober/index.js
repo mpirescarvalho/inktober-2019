@@ -41,13 +41,22 @@ const Button = styled.button`
 	background-color: #00000000;
 	padding: 2px 5px;
 	border: none;
-	cursor: pointer;
+	cursor: ${props => props.invalid ? 'auto' : 'pointer'};
 `;
 
 const Inktober = () => {
 	
-	const [day, setDay] = useState(3);
+	const maxDay = 3;
+	const [day, setDay] = useState(1);
 	
+	const handleNext = () => {
+		if (day < maxDay) setDay((day) => day + 1);
+	}
+
+	const handlePrior = () => {
+		if (day > 1) setDay((day) => day - 1);
+	}
+
 	return (
 		<>
 			<InkBorder>
@@ -58,13 +67,17 @@ const Inktober = () => {
 				</InkContainer>
 			</InkBorder>
 			<PaginationContainer>
-				<Button><Emoji emoji='👈'/></Button>
+				<Button invalid={day === 1} onClick={() => handlePrior()}>
+					{ day !== 1 && <Emoji emoji='👈'/> }
+				</Button> 
 				<InkDescription><strong>Day {day}: </strong>
 					{day === 1 && <InkDay1Desc />}
 					{day === 2 && <InkDay2Desc />}
 					{day === 3 && <InkDay3Desc />}
 				</InkDescription>
-				<Button><Emoji emoji='👉'/></Button>
+				<Button invalid={day === maxDay} onClick={() => handleNext()}>
+					{ day !== maxDay && <Emoji emoji='👉'/> }
+				</Button> 
 			</PaginationContainer>
 		</>
 	);
