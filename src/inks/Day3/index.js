@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import Emoji from '../../components/Emoji';
@@ -8,30 +8,39 @@ import imgCursor from '../../img/cursor.png';
 
 import Minion from './Minion';
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	background-image: url(${imgMapa});
 	background-size: cover;
-`;
-
-const HackCursor = styled.div`
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100vw;
-	height: 100vh;
-	/* z-index: 10; */
-	/* pointer-events: ; */
+	position: relative;
 	cursor: url(${imgCursor}), auto;
 `;
 
+const getMinionsInitialPosition = (quantidade) => {
+	let minions = [];
+	for (let i = 0; i < quantidade; i++) {
+		const randomX = getRandomIntInclusive(0, 750);
+		const randomY = getRandomIntInclusive(0, 450);
+		minions.push({ x: randomX, y: randomY });
+	}
+	return minions;
+}
+
 const InkDay3 = () => {
+
+	const quantidade = getRandomIntInclusive(8, 12);
+	const minions = getMinionsInitialPosition(quantidade);
 
 	return (
 		<Container>
-			<HackCursor />
-			{/* <Minion></Minion> */}
+			{minions.map((minion, index) => <Minion key={index} x={minion.x} y={minion.y} />)}
 		</Container>
 	);
 
