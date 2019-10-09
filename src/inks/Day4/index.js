@@ -5,6 +5,14 @@ import Slider from 'react-input-slider';
 
 import Emoji from '../../components/Emoji';
 
+const ContainerEmoji = styled.div`
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	margin-top: 20px;
+	font-size: 6em;
+`;
+
 const Container = styled.div`
 	background-color: ${props => props.theme.SunglowDarker};
 	width: 100%;
@@ -87,22 +95,25 @@ const InkDay4 = () => {
 
 	return (
 		<Container>
+			<ContainerEmoji>
+				{forca < 2 && <Emoji emoji="😎" />}
+				{(forca >= 2) && (forca < 3) && <Emoji emoji="🙄" />}
+				{(forca >= 3) && (forca < 5) && <Emoji emoji="🤒" />}
+				{(forca >= 5) && (forca < 7) && <Emoji emoji="🤧" />}
+				{(forca >= 7) && (forca < 10) && <Emoji emoji="🥶" />}
+				{forca === 10 && <Emoji emoji="💀" />}
+				<br />
+				<Emoji emoji="💪" /><Emoji emoji="👕" /><Emoji emoji="🤳" /><br />
+				<Emoji style={{ display: 'inline-block' }} emoji="🦵" /><div style={{ display: 'inline-block', transform: 'scaleX(-1)' }}><Emoji emoji="🦵" /></div>
+
+			</ContainerEmoji>
 			<ContainerParticles>
 				<Particles params={particlesParams} />
 			</ContainerParticles>
-			<Slider xmin={10} xstep={1} xmax={100} axis="x" x={forca * 10} onChange={({ x }) => setForca(x / 10)} />
+			<Slider style={{ width: '600px', left: '50%', marginLeft: '-300px', position: 'absolute', bottom: '20px' }} xmin={10} xstep={1} xmax={100} axis="x" x={forca * 10} onChange={({ x }) => setForca(x / 10)} />
 		</Container>
 	);
 };
-
-//😎
-//🙄
-//🤒
-//🤧
-//🥶
-//☃️
-//☠
-//💀
 
 const InkDay4Desc = () => (
 	<span>
