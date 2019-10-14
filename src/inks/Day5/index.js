@@ -46,7 +46,7 @@ const Pixel = styled.div`
 	cursor: pointer;
 `;
 
-const initialMap = [...new Array(16)].map(() => [...new Array(22)].map(() => ({ emoji: '', color: [] })));
+const initialMap = [...new Array(10)].map(() => [...new Array(16)].map(() => ({ emoji: '', color: [] })));
 
 const InkDay5 = () => {
 	const [index, setIndex] = useState(0);
@@ -86,7 +86,7 @@ const InkDay5 = () => {
 					</Row>
 				))}
 			</Quadro>
-			<Palette onPickItem={handlePickItem} selectedIndex={index} items={palette} />
+			<Palette pixels={5} onPixelsChange={console.log} onPickItem={handlePickItem} selectedIndex={index} items={palette} />
 		</Container>
 	);
 };

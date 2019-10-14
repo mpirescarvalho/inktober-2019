@@ -35,7 +35,7 @@ const SelectedMarker = styled.div`
 	transition: all 0.3s ease-in-out;
 `;
 
-const Palette = ({ items, onPickItem, selectedIndex, pixels, pixelsChange }) => (
+const Palette = ({ items, onPickItem, selectedIndex, pixels, onPixelsChange }) => (
 	<Draggable>
 		<StyledPalette>
 			<SelectedMarker
@@ -55,7 +55,7 @@ const Palette = ({ items, onPickItem, selectedIndex, pixels, pixelsChange }) => 
 				xmax={10}
 				axis="x"
 				x={pixels}
-				onChange={({ x }) => pixelsChange(x)}
+				onChange={({ x }) => onPixelsChange(x)}
 			/>
 		</StyledPalette>
 	</Draggable>
