@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import Slider from 'react-input-slider';
 
 import Draggable from 'react-draggable';
 
 const StyledPalette = styled.div`
+	display: block;
 	width: 300px;
 	position: absolute;
-	bottom: 20px;
+	bottom: 30px;
 	left: 50%;
 	margin-left: -150px;
 	display: flex;
@@ -33,7 +35,7 @@ const SelectedMarker = styled.div`
 	transition: all 0.3s ease-in-out;
 `;
 
-const Palette = ({ items, onPickItem, selectedIndex }) => (
+const Palette = ({ items, onPickItem, selectedIndex, pixels, pixelsChange }) => (
 	<Draggable>
 		<StyledPalette>
 			<SelectedMarker
@@ -46,6 +48,15 @@ const Palette = ({ items, onPickItem, selectedIndex }) => (
 					{item.emoji}
 				</PaletteItem>
 			))}
+			<Slider
+				style={{ width: '300px', position: 'absolute', bottom: '-20px' }}
+				xmin={1}
+				xstep={1}
+				xmax={10}
+				axis="x"
+				x={pixels}
+				onChange={({ x }) => pixelsChange(x)}
+			/>
 		</StyledPalette>
 	</Draggable>
 );
