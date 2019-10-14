@@ -5,6 +5,7 @@ import InkDay1, { InkDay1Desc } from '../../inks/Day1';
 import InkDay2, { InkDay2Desc } from '../../inks/Day2';
 import InkDay3, { InkDay3Desc } from '../../inks/Day3';
 import InkDay4, { InkDay4Desc } from '../../inks/Day4';
+import InkDay5, { InkDay5Desc } from '../../inks/Day5';
 
 import Emoji from '../Emoji';
 
@@ -47,8 +48,8 @@ const Button = styled.button`
 
 const Inktober = () => {
 	
-	const maxDay = 4;
-	const [day, setDay] = useState(4);
+	const maxDay = 5;
+	const [day, setDay] = useState(5);
 	
 	const handleNext = () => {
 		if (day < maxDay) setDay((day) => day + 1);
@@ -66,6 +67,7 @@ const Inktober = () => {
 					{day === 2 && <InkDay2 />}
 					{day === 3 && <InkDay3 />}
 					{day === 4 && <InkDay4 />}
+					{day === 5 && <InkDay5 />}
 				</InkContainer>
 			</InkBorder>
 			<PaginationContainer>
@@ -77,6 +79,7 @@ const Inktober = () => {
 					{day === 2 && <InkDay2Desc />}
 					{day === 3 && <InkDay3Desc />}
 					{day === 4 && <InkDay4Desc />}
+					{day === 5 && <InkDay5Desc />}
 				</InkDescription>
 				<Button invalid={day === maxDay} onClick={() => handleNext()}>
 					{ day !== maxDay && <Emoji emoji='👉'/> }
