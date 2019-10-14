@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/inktober-2019/precache-manifest.f47ad938beab87d6d8f4cfff276e840c.js"
+  "/inktober-2019/precache-manifest.93b8489a3fd81a2a10a439a931f76516.js"
 );
 
 self.addEventListener('message', (event) => {
