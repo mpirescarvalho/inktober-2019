@@ -31,7 +31,7 @@ const ContainerParticles = styled.div`
 `;
 
 const InkDay4 = () => {
-	const [forca, setForca] = useState(5);
+	const [forca, setForca] = useState(1);
 
 	const particlesParams = {
 		particles: {
