@@ -22,6 +22,7 @@ const Quadro = styled.div`
 `;
 
 const Row = styled.div`
+	background-color: ${props => props.theme.Jet};
 	width: 100%;
 	height: 100%;
 	display: flex;
@@ -37,10 +38,11 @@ const Pixel = styled.div`
 	justify-content: center;
 	align-items: center;
 	border-left: 1px solid
-		${props => (props.clear ? '#eee' : `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`)};
+	${props => (props.clear ? '#eee' : `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`)};
 	border-bottom: 1px solid
-		${props => (props.clear ? '#eee' : `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`)};
+	${props => (props.clear ? '#eee' : `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`)};
 	background-color: ${props => `rgb(${props.color[0]},${props.color[1]},${props.color[2]})`};
+	${props => props.clear && 'background-color: #fff'}
 	cursor: pointer;
 `;
 

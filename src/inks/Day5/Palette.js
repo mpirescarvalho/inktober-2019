@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Draggable from 'react-draggable';
+
 const StyledPalette = styled.div`
 	width: 300px;
 	position: absolute;
@@ -32,14 +34,20 @@ const SelectedMarker = styled.div`
 `;
 
 const Palette = ({ items, onPickItem, selectedIndex }) => (
-	<StyledPalette>
-		<SelectedMarker color={getInvertedColor(items[selectedIndex].color)} index={selectedIndex} max={items.length} />
-		{items.map((item, i) => (
-			<PaletteItem key={i} onClick={() => onPickItem(i)} color={item.color}>
-				{item.emoji}
-			</PaletteItem>
-		))}
-	</StyledPalette>
+	<Draggable>
+		<StyledPalette>
+			<SelectedMarker
+				color={getInvertedColor(items[selectedIndex].color)}
+				index={selectedIndex}
+				max={items.length}
+			/>
+			{items.map((item, i) => (
+				<PaletteItem key={i} onClick={() => onPickItem(i)} color={item.color}>
+					{item.emoji}
+				</PaletteItem>
+			))}
+		</StyledPalette>
+	</Draggable>
 );
 
 const getInvertedColor = color => {
